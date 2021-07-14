@@ -21,7 +21,7 @@
 
   <!--USER PROFILE MENU-->
   <mat-menu #profileMenu="matMenu">
-    <button mat-menu-item disabled>
+    <button  *ngIf="isAdmin" mat-menu-item disabled>
       <mat-icon>supervisor_account</mat-icon>
       <span>Modify account</span>
     </button>
@@ -43,18 +43,15 @@
 
       <a mat-list-item routerLink="/request-permission">
         <i class="material-icons">event</i>
-        &nbsp;Talepler
+        &nbsp;Taleplerim
       </a>
 
-      <a mat-list-item routerLink="/clients">
+      <a  *ngIf="isAdmin" mat-list-item routerLink="/clients">
         <i class="material-icons">done</i>
-        &nbsp;Users
+        &nbsp;Talep Onay Ekranı
       </a>
 
-      <a mat-list-item routerLink="/404">
-        <i class="material-icons">error_outline</i>
-        &nbsp;Error page
-      </a>
+       
     </mat-nav-list>
   </mat-drawer>
 

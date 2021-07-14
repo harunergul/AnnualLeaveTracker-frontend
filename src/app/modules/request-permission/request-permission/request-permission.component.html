@@ -1,89 +1,110 @@
 <div class="animated fadeIn table-container mat-elevation-z20">
-    <mat-card>
-      <mat-card-header>
-        <i class="material-icons">supervised_user_circle</i>
-        <mat-card-title>Talepler</mat-card-title>
-       </mat-card-header>
-  
-      <mat-card-content>
-        <!-- Table loading spinner -->
-        <div class="table-loading-shade" *ngIf="isLoading">
-          <mat-spinner *ngIf="isLoading"></mat-spinner>
-        </div>
-  
-        <div class="table-header">
-          <!-- Table search input -->
-      
-  
-          <!-- Add button -->
-          <button mat-raised-button (click)="save()" style="margin-bottom: 15px;" color="primary">
-            <mat-icon>add</mat-icon> Talep Oluştur
-          </button>
-        </div>
-  
-        <mat-table #table [dataSource]="dataSource" class="person-table" >
-          <!-- Table content -->
-          <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef >No.</mat-header-cell>
-            <mat-cell *matCellDef="let row; let i = index;"> {{ i + 1 }} </mat-cell>
-          </ng-container>
-  
-          <ng-container matColumnDef="startDate">
-            <mat-header-cell *matHeaderCellDef>İzine Ayrılma Tarihi</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{ row.startDate | date:'dd/MM/yyyy' }}</mat-cell>
-          </ng-container>
-  
-          <ng-container matColumnDef="endDate">
-            <mat-header-cell *matHeaderCellDef >işe Başlama Tarihi</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{ row.endDate |  date:'dd/MM/yyyy' }}</mat-cell>
-          </ng-container>
-  
-          <ng-container matColumnDef="description">
-            <mat-header-cell *matHeaderCellDef >Açıklama</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{ row.description }}</mat-cell>
-          </ng-container>
-  
-          <ng-container matColumnDef="requestDate">
-            <mat-header-cell *matHeaderCellDef>İstek Tarihi</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{ row.requestDate | date:'dd/MM/yyyy' }}</mat-cell>
-          </ng-container>
-  
-          <ng-container matColumnDef="acceptanceStatus">
-            <mat-header-cell *matHeaderCellDef>Durumu</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{ getAcceptanceStatus(row) }} </mat-cell>
-          </ng-container>
-          <!-- Table actions -->
-          <ng-container matColumnDef="personid">
-            <mat-header-cell *matHeaderCellDef>
-              Aksiyon
-            </mat-header-cell>
-  
-            <mat-cell *matCellDef="let row">
-  
-              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Click to see more actions">
-                <i class="material-icons">more_vert</i>
+  <mat-card>
+    <mat-card-header>
+      <i class="material-icons">supervised_user_circle</i>
+      <mat-card-title>Talepler</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Table loading spinner -->
+      <div class="table-loading-shade" *ngIf="isLoading">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+      </div>
+
+      <div class="table-header">
+        <!-- Table search input -->
+        <!-- Add button -->
+        <button
+          mat-raised-button
+          (click)="save()"
+          style="margin-bottom: 15px"
+          color="primary"
+        >
+          <mat-icon>add</mat-icon> Talep Oluştur
+        </button>
+      </div>
+
+      <mat-table #table [dataSource]="dataSource" class="person-table">
+        <!-- Table content -->
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef>No.</mat-header-cell>
+          <mat-cell *matCellDef="let row; let i = index">
+            {{ i + 1 }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="startDate">
+          <mat-header-cell *matHeaderCellDef
+            >İzine Ayrılma Tarihi</mat-header-cell
+          >
+          <mat-cell *matCellDef="let row">{{
+            row.startDate | date: "dd/MM/yyyy"
+          }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <mat-header-cell *matHeaderCellDef
+            >işe Başlama Tarihi</mat-header-cell
+          >
+          <mat-cell *matCellDef="let row">{{
+            row.endDate | date: "dd/MM/yyyy"
+          }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef>Açıklama</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{ row.description }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="requestDate">
+          <mat-header-cell *matHeaderCellDef>İstek Tarihi</mat-header-cell>
+          <mat-cell *matCellDef="let row">{{
+            row.requestDate | date: "dd/MM/yyyy"
+          }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="acceptanceStatus">
+          <mat-header-cell *matHeaderCellDef>Durumu</mat-header-cell>
+          <mat-cell *matCellDef="let row"
+            >{{ getAcceptanceStatus(row) }}
+          </mat-cell>
+        </ng-container>
+        <!-- Table actions -->
+        <ng-container matColumnDef="personid">
+          <mat-header-cell *matHeaderCellDef> Aksiyon </mat-header-cell>
+
+          <mat-cell *matCellDef="let row">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              aria-label="Click to see more actions"
+            >
+              <i class="material-icons">more_vert</i>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="edit(row)">
+                <mat-icon aria-label="Edit">create</mat-icon> Düzenle
               </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="edit(row)">
-                  <mat-icon aria-label="Edit">create</mat-icon> Düzenle
-                </button>
-                <button mat-menu-item (click)="delete(row)" *ngIf="row.acceptanceStatus==0">
-                  <mat-icon aria-label="Delete">clear</mat-icon> Sil
-                </button>
-              </mat-menu>
-            </mat-cell>
-          </ng-container>
-  
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-  
-        <!-- Table pagination 
+              <button
+                mat-menu-item
+                (click)="delete(row)"
+                *ngIf="row.acceptanceStatus == 0"
+              >
+                <mat-icon aria-label="Delete">clear</mat-icon> Sil
+              </button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+
+      <!-- Table pagination 
         <mat-paginator [pageSizeOptions]="pageSizeOptions" [length]="totalItems" [pageSize]="pageSize"
           (page)="onPaginateChange($event)">
         </mat-paginator>
         -->
-      </mat-card-content>
-    </mat-card>
-  </div>
-  
+    </mat-card-content>
+  </mat-card>
+</div>

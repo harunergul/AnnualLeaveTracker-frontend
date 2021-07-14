@@ -17,6 +17,7 @@ import { ConfirmComponent } from '~components/confirm/confirm.component';
 export class AdminLayoutComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   mobileQuery: MediaQueryList;
+  isAdmin = false;
   private mobileQueryListener: () => void;
 
   @ViewChild('progressBar', { static: false })
@@ -42,6 +43,7 @@ export class AdminLayoutComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isAdmin = this.authService.isAdmin;
     this.isLoggedIn$ = this.authService.isLoggedIn;
   }
 

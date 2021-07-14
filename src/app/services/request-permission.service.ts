@@ -28,6 +28,10 @@ export class RequestPermissionService {
   }
 
   addRequestPermission(value: IPermissionRequest): Observable<any> {
+    if(value.id){
+      return this.http.post<Response>(`${this.serviceUrl}/update`,value);
+    }
+
     return this.http.post<Response>(`${this.serviceUrl}/add`,value);
   }
 

@@ -121,6 +121,15 @@ export class RequestPermissionComponent implements OnInit {
 
   edit(permissionRequest: IPermissionRequest): void {
     this.requestPermissionService.getOne(permissionRequest.id).subscribe((data: IPermissionRequest)=>{
+      console.log(data);
+      const dialogRef = this.dialog.open(FormsComponent, {
+        width: "400px",
+        data: { title: "Talep Güncelleme", action: "edit", data: data },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+          this.getData();
+      });
 
     },
     (error:any)=>{
