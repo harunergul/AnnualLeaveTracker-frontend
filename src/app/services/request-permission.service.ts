@@ -10,24 +10,33 @@ import { Observable } from "rxjs";
 })
 export class RequestPermissionService {
   
+  private serviceUrl:string;
+
   constructor(
     @Inject(APIURL) public ApiURL,
     private auth: AuthService,
     private http: HttpClient
-  ) {}
+  ) {
+    this.serviceUrl = ApiURL+"/permission-request"
+  }
 
   getUserPermissionRequests() : Observable<IPermissionRequest[]>{
     let info: IUser = this.auth.userInfo;
     return this.http.get<IPermissionRequest[]>(
-      `${this.ApiURL}/permission-request/${info.id}`
+      `${this.serviceUrl}/all/${info.id}`
     );
   }
 
   addRequestPermission(value: IPermissionRequest): Observable<any> {
-    return this.http.post<Response>(`${this.ApiURL}/permission-request/add`,value);
+    return this.http.post<Response>(`${this.serviceUrl}/add`,value);
   }
 
   deleteRequest(id: number):Observable<any> {
-    return this.http.delete<any>(`${this.ApiURL}/permission-request/delete/${id}`);
+    return this.http.delete<any>(`${this.serviceUrl}/delete/${id}`);
   }
+
+  getOne(id: number) {
+    return this.http.get<any>(`${this.serviceUrl}/${id}`);
+  }
+  
 }

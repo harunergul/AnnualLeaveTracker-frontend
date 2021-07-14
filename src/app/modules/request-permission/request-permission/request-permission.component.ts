@@ -119,7 +119,14 @@ export class RequestPermissionComponent implements OnInit {
       });
   }
 
-  edit(client: Client): void {
+  edit(permissionRequest: IPermissionRequest): void {
+    this.requestPermissionService.getOne(permissionRequest.id).subscribe((data: IPermissionRequest)=>{
+
+    },
+    (error:any)=>{
+      this.openSnack( error.error);
+    });
+
     /*this.clientService.getOne(client.id).subscribe((data: any) => {
       if (data.success) {
         const dialogRef = this.dialog.open(FormsComponent, {
@@ -171,14 +178,6 @@ export class RequestPermissionComponent implements OnInit {
               (row: IPermissionRequest) => row.id != permissionRequest.id
             );
           });
-        /*
-        this.clientService.delete(client.id).subscribe((data: any) => {
-          this.openSnack(data);
-          if (data.success) {
-            this.paginator._changePageSize(this.paginator.pageSize);
-          }
-        });
-*/
       }
     });
   }

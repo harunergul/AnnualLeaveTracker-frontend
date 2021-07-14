@@ -68,11 +68,8 @@ export class FormsComponent implements OnInit {
       this.dialogRef.close(true);
     }
     ,
-    (error: any)=>{
-      console.log(error);
-      console.log(error.error.message)
+    (error: any)=>{ 
       this.openSnack( error.error);
-      
     });
   }
 
