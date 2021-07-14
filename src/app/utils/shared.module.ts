@@ -1,5 +1,3 @@
-/*CONTIENE LOS MODULOS DE ANGULAR QUE SON IMPORTADOS EN TODOS LOS MODULOS
-CREADOS POR EL USUARIO*/
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -7,6 +5,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialComponentsModule } from './material.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormatDatePipe } from './format-date.pipe';
+import { MAT_DATE_LOCALE } from '@angular/material/core'
+
 
 @NgModule({
     declarations:[
@@ -27,6 +27,9 @@ import { FormatDatePipe } from './format-date.pipe';
         ReactiveFormsModule,
         MaterialComponentsModule,
         FormatDatePipe
+    ],
+    providers:[
+        { provide: MAT_DATE_LOCALE, useValue: 'tr-TR' }
     ]
 })
 export class SharedModule { }

@@ -9,6 +9,7 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class RequestPermissionService {
+  
   constructor(
     @Inject(APIURL) public ApiURL,
     private auth: AuthService,
@@ -24,5 +25,9 @@ export class RequestPermissionService {
 
   addRequestPermission(value: IPermissionRequest): Observable<any> {
     return this.http.post<Response>(`${this.ApiURL}/permission-request/add`,value);
+  }
+
+  deleteRequest(id: number):Observable<any> {
+    return this.http.delete<any>(`${this.ApiURL}/permission-request/delete/${id}`);
   }
 }

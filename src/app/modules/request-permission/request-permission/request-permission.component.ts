@@ -22,7 +22,6 @@ import { ConfirmComponent } from "~components/confirm/confirm.component";
 import { FormsComponent } from "./forms/forms.component";
 import { SnackbarComponent } from "~components/snackbar/snackbar.component";
 
-
 import { Controller } from "~base/controller";
 import { templateJitUrl } from "@angular/compiler";
 import { IPermissionRequest } from "~app/models";
@@ -62,7 +61,7 @@ export class RequestPermissionComponent implements OnInit {
     private router: Router,
     private requestPermissionService: RequestPermissionService,
     public dialog: MatDialog,
-    public snack: MatSnackBar,
+    public snack: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -97,32 +96,27 @@ export class RequestPermissionComponent implements OnInit {
     this.getData();
   }
 
-  getAcceptanceStatus(row: IPermissionRequest): string{
-
-      if(row.acceptanceStatus==0){
-        return "BEKLEMEDE";
-      }else if(row.acceptanceStatus==1){
-        return "KABUL EDILDI";
-      }else {
-        return "REDEDILDI";
-      }
+  getAcceptanceStatus(row: IPermissionRequest): string {
+    if (row.acceptanceStatus == 0) {
+      return "BEKLEMEDE";
+    } else if (row.acceptanceStatus == 1) {
+      return "KABUL EDILDI";
+    } else {
+      return "REDEDILDI";
+    }
   }
 
   getData(): void {
-
-    
-
-      this.requestPermissionService.getUserPermissionRequests().subscribe((data)=>{
-        if(data!=null){
+    this.requestPermissionService
+      .getUserPermissionRequests()
+      .subscribe((data) => {
+        if (data != null) {
           console.log(data);
-          this.dataSource.data =data;
-        }else{
+          this.dataSource.data = data;
+        } else {
           this.dataSource.data = [];
         }
       });
-
-  
-
   }
 
   edit(client: Client): void {
@@ -157,7 +151,7 @@ export class RequestPermissionComponent implements OnInit {
     });
   }
 
-  delete(client: Client): void {
+  delete(permissionRequest: IPermissionRequest): void {
     const dialogRef = this.dialog.open(ConfirmComponent, {
       width: "250px",
       data: {
@@ -168,6 +162,15 @@ export class RequestPermissionComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.requestPermissionService
+          .deleteRequest(permissionRequest.id)
+          .subscribe((data: any) => {
+            console.log(data);
+            console.log("test");
+            this.dataSource.data = this.dataSource.data.filter(
+              (row: IPermissionRequest) => row.id != permissionRequest.id
+            );
+          });
         /*
         this.clientService.delete(client.id).subscribe((data: any) => {
           this.openSnack(data);
