@@ -107,50 +107,39 @@ export class RequestPermissionComponent implements OnInit {
   }
 
   getData(): void {
-    this.requestPermissionService
-      .getUserPermissionRequests()
-      .subscribe((data) => {
+    this.isLoading = true;
+    this.requestPermissionService.getUserPermissionRequests().subscribe(
+      (data) => {
         if (data != null) {
-          console.log(data);
           this.dataSource.data = data;
         } else {
           this.dataSource.data = [];
         }
-      });
+      },
+      (error: any) => {},
+      () => {
+        this.isLoading = false;
+      }
+    );
   }
 
   edit(permissionRequest: IPermissionRequest): void {
-    this.requestPermissionService.getOne(permissionRequest.id).subscribe((data: IPermissionRequest)=>{
-      console.log(data);
-      const dialogRef = this.dialog.open(FormsComponent, {
-        width: "400px",
-        data: { title: "Talep Güncelleme", action: "edit", data: data },
-      });
-
-      dialogRef.afterClosed().subscribe((result) => {
-          this.getData();
-      });
-
-    },
-    (error:any)=>{
-      this.openSnack( error.error);
-    });
-
-    /*this.clientService.getOne(client.id).subscribe((data: any) => {
-      if (data.success) {
+    this.requestPermissionService.getOne(permissionRequest.id).subscribe(
+      (data: IPermissionRequest) => {
+        console.log(data);
         const dialogRef = this.dialog.open(FormsComponent, {
           width: "400px",
-          data: { title: "Update person", action: "edit", data: data.data },
+          data: { title: "Talep Güncelleme", action: "edit", data: data },
         });
 
         dialogRef.afterClosed().subscribe((result) => {
-          if (result) {
-            this.paginator._changePageSize(this.paginator.pageSize);
-          }
+          this.getData();
         });
+      },
+      (error: any) => {
+        this.openSnack(error.error);
       }
-    });
-    */
+    );
   }
 
   save(): void {

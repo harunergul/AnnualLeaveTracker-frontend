@@ -54,9 +54,11 @@ export class FormsComponent implements OnInit {
       startDate: new FormControl(IS_EDITING ? data.startDate : null, [Validators.required]),
       endDate: new FormControl(IS_EDITING ? data.endDate : null, [Validators.required]),
       description: new FormControl(IS_EDITING ? data.description : null, [Validators.required]),
-      status: new FormControl(IS_EDITING ? data.status : 0),
       user: new FormControl(IS_EDITING ? data.user : this.auth.userInfo),
-
+      requestDate: new FormControl(IS_EDITING ? data.requestDate : null),
+      updateDate: new FormControl(IS_EDITING ? data.updateDate : null),
+      acceptanceStatus: new FormControl(IS_EDITING ? data.acceptanceStatus : null),
+      status: new FormControl(IS_EDITING ? data.status : 0),
     });
   }
 
