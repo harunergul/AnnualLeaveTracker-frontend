@@ -62,9 +62,9 @@ export class AdminLayoutComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.authService.logout().subscribe((data: any) => {
-          console.log(data);
           if (data.success) {
             this.authService.loggedIn.next(false);
+            localStorage.clear();
             localStorage.removeItem('token');
             this.router.navigate(['/login']);
           }

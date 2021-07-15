@@ -1,0 +1,39 @@
+<h1 mat-dialog-title> {{ data.title }}</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="frm">
+ 
+
+    <mat-form-field>
+      <input matInput  placeholder="İzne çıkış tarihi" [matDatepicker]="dp"  formControlName="startDate" [min]="minDate" [max]=[dpEndDate]>
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput  placeholder="İzinden dönüş tarihi" [matDatepicker]="dpEndDate"  formControlName="endDate">
+      <mat-datepicker-toggle matSuffix [for]="dpEndDate"></mat-datepicker-toggle>
+      <mat-datepicker #dpEndDate></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Açıklama" formControlName="description" class="person-input"> 
+    </mat-form-field>
+
+    <mat-form-field style="visibility: hidden; height: 0vh !important">
+      <input matInput type="text" formControlName='status'>
+    </mat-form-field>
+
+    <mat-form-field style="visibility: hidden; height: 0vh !important">
+      <input matInput type="text" formControlName='id'>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]>İptal</button>
+  <button mat-raised-button color="primary" (click)='save(frm)' class="btnSave" [disabled]="!frm.valid">
+    <mat-icon aria-label="icon-button">save </mat-icon>
+    <span>Kaydet</span>
+  </button>
+</div>

@@ -13,13 +13,13 @@ import { AuthService } from '~app/services/auth.service';
   styleUrls: ['./forms.component.scss']
 })
 
-export class FormsComponent implements OnInit {
+export class FormsAdminComponent implements OnInit {
   public frm: FormGroup;
   minDate = new Date();
  
 
   constructor(
-    public dialogRef: MatDialogRef<FormsComponent>,
+    public dialogRef: MatDialogRef<FormsAdminComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: any,
     private fb: FormBuilder,
