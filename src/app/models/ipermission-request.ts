@@ -9,3 +9,9 @@ export interface IPermissionRequest {
   acceptanceStatus: number;
   status: number;
 }
+
+export enum PermissionRequestAcceptanceStatus{
+  WAITING,
+  APPROVED,
+  REJECTED
+}

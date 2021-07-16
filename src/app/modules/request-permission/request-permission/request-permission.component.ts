@@ -98,11 +98,11 @@ export class RequestPermissionComponent implements OnInit {
 
   getAcceptanceStatus(row: IPermissionRequest): string {
     if (row.acceptanceStatus == 0) {
-      return "BEKLEMEDE";
+      return "Onay Bekleniyor";
     } else if (row.acceptanceStatus == 1) {
-      return "KABUL EDILDI";
+      return "Onaylandı";
     } else {
-      return "REDEDILDI";
+      return "Rededildi";
     }
   }
 
@@ -128,7 +128,7 @@ export class RequestPermissionComponent implements OnInit {
       (data: IPermissionRequest) => {
         console.log(data);
         const dialogRef = this.dialog.open(FormsComponent, {
-          width: "400px",
+          width: "450px",
           data: { title: "Talep Güncelleme", action: "edit", data: data },
         });
 
@@ -158,10 +158,10 @@ export class RequestPermissionComponent implements OnInit {
 
   delete(permissionRequest: IPermissionRequest): void {
     const dialogRef = this.dialog.open(ConfirmComponent, {
-      width: "250px",
+      width: "340px",
       data: {
-        title: "Delete record",
-        message: "Are you sure you want to delete this record?",
+        title: "Kayıt Silme",
+        message: "Bu kaydı silmek istediğinize emin misiniz?",
       },
     });
 

@@ -1,9 +1,4 @@
-import {
-  Component,
-  ViewChild,
-  ChangeDetectorRef,
-  OnInit,
-} from "@angular/core";
+import { Component, ViewChild, ChangeDetectorRef, OnInit } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -17,18 +12,17 @@ import { AuthService } from "~services/auth.service";
 import { ConfirmComponent } from "~components/confirm/confirm.component";
 import { FormsAdminComponent } from "./forms/forms.component";
 import { SnackbarComponent } from "~components/snackbar/snackbar.component";
- 
+
 import { IPermissionRequest } from "~app/models";
 @Component({
-  selector: 'app-permission-request-admin',
-  templateUrl: './permission-request-admin.component.html',
-  styleUrls: ['./permission-request-admin.component.css']
+  selector: "app-permission-request-admin",
+  templateUrl: "./permission-request-admin.component.html",
+  styleUrls: ["./permission-request-admin.component.css"],
 })
 export class PermissionRequestAdminComponent implements OnInit {
-
   public displayedColumns = [
     "id",
-    "personelname", 
+    "personelname",
     "startDate",
     "endDate",
     "description",
@@ -93,11 +87,11 @@ export class PermissionRequestAdminComponent implements OnInit {
 
   getAcceptanceStatus(row: IPermissionRequest): string {
     if (row.acceptanceStatus == 0) {
-      return "BEKLEMEDE";
+      return "Onay Bekleniyor";
     } else if (row.acceptanceStatus == 1) {
-      return "KABUL EDILDI";
+      return "Onaylandı";
     } else {
-      return "REDEDILDI";
+      return "Reddedildi";
     }
   }
 
@@ -123,7 +117,7 @@ export class PermissionRequestAdminComponent implements OnInit {
       (data: IPermissionRequest) => {
         console.log(data);
         const dialogRef = this.dialog.open(FormsAdminComponent, {
-          width: "400px",
+          width: "450px",
           data: { title: "Talep Güncelleme", action: "edit", data: data },
         });
 
@@ -137,6 +131,39 @@ export class PermissionRequestAdminComponent implements OnInit {
     );
   }
 
+  accept(permissionRequest: IPermissionRequest) {
+    let id = permissionRequest.id;
+    let patchUpdate = {
+      acceptanceStatus: 1,
+    };
+
+    this.permissionService.updateAcceptanceStatus(id, patchUpdate).subscribe(
+      (response: any) => {},
+      (error: any) => {
+        this.openSnack(error.error)
+      },
+      () => {
+        this.getData();
+      }
+    );
+  }
+
+  reject(permissionRequest: IPermissionRequest) {
+    let id = permissionRequest.id;
+    let patchUpdate = {
+      acceptanceStatus: 2,
+    };
+
+    this.permissionService.updateAcceptanceStatus(id, patchUpdate).subscribe(
+      (response: any) => {},
+      (error: any) => {
+        this.openSnack(error.error)
+      },
+      () => {
+        this.getData();
+      }
+    );
+  }
   save(): void {
     const dialogRef = this.dialog.open(FormsAdminComponent, {
       width: "400px",
@@ -155,8 +182,8 @@ export class PermissionRequestAdminComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmComponent, {
       width: "250px",
       data: {
-        title: "Delete record",
-        message: "Are you sure you want to delete this record?",
+        title: "Kaydı Sil",
+        message: "Bu kaydı silmek istediğinize emin misiniz?",
       },
     });
 

@@ -20,15 +20,23 @@ export class TokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     let tokenizedRequest = null;
-    const headers = request.headers;
+    let locale= localStorage.getItem("locale")
+    
+    if(locale){
+      locale = JSON.parse(locale)["accept-language"];
+    }else{
+      locale="*";
 
+    }
     let token = localStorage.getItem("token");
 
     if (token != null) {
       tokenizedRequest = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`,
+          "Accept-Language": locale
         },
+      
       });
       return next.handle(tokenizedRequest);
     }else{

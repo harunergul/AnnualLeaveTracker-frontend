@@ -11,7 +11,7 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class AdminPermissionRequestService {
-
+  
   private serviceUrl:string;
 
   constructor(
@@ -44,4 +44,9 @@ export class AdminPermissionRequestService {
   getOne(id: number) {
     return this.http.get<any>(`${this.serviceUrl}/${id}`);
   }
+
+  updateAcceptanceStatus(id: number, patchUpdate) {
+    return this.http.patch<any>(`${this.serviceUrl}/${id}`, patchUpdate);
+  }
+
 }

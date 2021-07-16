@@ -10,6 +10,10 @@ import { APIURL } from "~app/utils/config";
 
 @Injectable()
 export class AuthService {
+  public englishLocale = "en-US,en;q=5";
+  public turkishLocale = "tr-TR,tr;q=5";
+  public static EN="en";
+  public static TR="tr";
   public loggedIn = new BehaviorSubject<boolean>(this.hasToken());
 
   get isLoggedIn() {
@@ -76,5 +80,33 @@ export class AuthService {
       }
     }
     return false;
+  }
+
+  public set language(language:string) {
+    if (language == "tr") {
+      let value = JSON.stringify({'language': 'tr', 'accept-language': this.turkishLocale});
+      localStorage.setItem("locale", value);
+    } else {
+      let value = JSON.stringify({'language': 'en', 'accept-language': this.englishLocale});
+      localStorage.setItem("locale", value);
+    }
+  }
+
+  public get language() {
+    let locale = localStorage.getItem("locale");
+    if(locale!=null){
+      return JSON.parse(locale)['language'];
+    }else{
+      return 'tr';
+    }
+  }
+
+  public get locale() {
+    let locale = localStorage.getItem("locale");
+    if(locale){
+      return JSON.parse(locale)['language'];
+    }else{
+      return null;
+    }
   }
 }

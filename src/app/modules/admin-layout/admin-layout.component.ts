@@ -1,26 +1,40 @@
-import { Component, OnInit, ChangeDetectorRef, NgZone, ElementRef, ViewChild, Renderer2 } from '@angular/core';
-import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  NgZone,
+  ElementRef,
+  ViewChild,
+  Renderer2,
+} from "@angular/core";
+import {
+  Router,
+  Event as RouterEvent,
+  NavigationStart,
+  NavigationEnd,
+  NavigationCancel,
+  NavigationError,
+} from "@angular/router";
+import { MediaMatcher } from "@angular/cdk/layout";
+import { MatDialog } from "@angular/material/dialog";
+import { Observable } from "rxjs";
 
-import { AuthService } from '~services/auth.service';
-import { ConfirmComponent } from '~components/confirm/confirm.component';
+import { AuthService } from "~services/auth.service";
+import { ConfirmComponent } from "~components/confirm/confirm.component";
 
 @Component({
-  selector: 'app-admin-layout',
-  templateUrl: './admin-layout.component.html',
-  styleUrls: ['./admin-layout.component.scss'],
-  providers: [AuthService]
+  selector: "app-admin-layout",
+  templateUrl: "./admin-layout.component.html",
+  styleUrls: ["./admin-layout.component.scss"],
+  providers: [AuthService],
 })
-
 export class AdminLayoutComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   mobileQuery: MediaQueryList;
   isAdmin = false;
   private mobileQueryListener: () => void;
 
-  @ViewChild('progressBar', { static: false })
+  @ViewChild("progressBar", { static: false })
   progressBar: ElementRef;
 
   constructor(
@@ -33,7 +47,7 @@ export class AdminLayoutComponent implements OnInit {
     private ngZone: NgZone,
     private renderer: Renderer2
   ) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this.mobileQuery = media.matchMedia("(max-width: 600px)");
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this.mobileQueryListener);
 
@@ -53,20 +67,20 @@ export class AdminLayoutComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(ConfirmComponent, {
-      width: '250px',
+      width: "250px",
       data: {
-        title: 'Logout',
-        message: 'Close session?'
-      }
+        title: "Logout",
+        message: "Oturumu kapatılacaktır. Emin misiniz?",
+      },
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.authService.logout().subscribe((data: any) => {
           if (data.success) {
             this.authService.loggedIn.next(false);
             localStorage.clear();
-            localStorage.removeItem('token');
-            this.router.navigate(['/login']);
+            localStorage.removeItem("token");
+            this.router.navigate(["/login"]);
           }
         });
       }
@@ -77,7 +91,7 @@ export class AdminLayoutComponent implements OnInit {
   private _navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
       this.ngZone.runOutsideAngular(() => {
-        this.renderer.setStyle(this.progressBar.nativeElement, 'opacity', '1');
+        this.renderer.setStyle(this.progressBar.nativeElement, "opacity", "1");
       });
     }
     if (event instanceof NavigationEnd) {
@@ -99,8 +113,23 @@ export class AdminLayoutComponent implements OnInit {
 
   private hideProgressBar(): void {
     this.ngZone.runOutsideAngular(() => {
-      this.renderer.setStyle(this.progressBar.nativeElement, 'opacity', '0');
+      this.renderer.setStyle(this.progressBar.nativeElement, "opacity", "0");
     });
   }
 
+  changeLocale(language: string): void {
+    if (language == AuthService.TR) {
+      this.authService.language = AuthService.TR;
+    } else {
+      this.authService.language = AuthService.EN;
+    }
+  }
+
+  getCurrentLocale():string{
+    if(this.authService.locale==null){
+      return AuthService.TR;
+    }else{
+      return this.authService.locale;
+    }
+  }
 }

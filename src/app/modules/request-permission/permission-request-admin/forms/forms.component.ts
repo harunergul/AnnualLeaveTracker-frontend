@@ -63,9 +63,15 @@ export class FormsAdminComponent implements OnInit {
 
   public save(form: FormGroup) {
     console.log(form.value);
+    console.log(this.frm.get('id').value)
+    let id = this.frm.get('id').value;
     this.requestPermissionService.addRequestPermission(form.value).subscribe((data: any) => {
-      
-      this.openSnack({message:"Talebiniz başarılı bir şekilde oluşturuldu."});
+      if(id){
+        this.openSnack({message:"Talep başarılı bir şekilde güncellendi."});
+      }else{
+
+        this.openSnack({message:"Talep başarılı bir şekilde oluşturuldu."});
+      }
       this.dialogRef.close(true);
     }
     ,

@@ -2,7 +2,7 @@
     <mat-card>
       <mat-card-header>
         <i class="material-icons">supervised_user_circle</i>
-        <mat-card-title>Talepler</mat-card-title>
+        <mat-card-title>Personel yıllık izin talepleri</mat-card-title>
       </mat-card-header>
   
       <mat-card-content>
@@ -14,14 +14,7 @@
         <div class="table-header">
           <!-- Table search input -->
           <!-- Add button -->
-          <button
-            mat-raised-button
-            (click)="save()"
-            style="margin-bottom: 15px"
-            color="primary"
-          >
-            <mat-icon>add</mat-icon> Talep Oluştur
-          </button>
+ 
         </div>
   
         <mat-table #table [dataSource]="dataSource" class="person-table">
@@ -72,7 +65,11 @@
           <ng-container matColumnDef="acceptanceStatus">
             <mat-header-cell *matHeaderCellDef>Durumu</mat-header-cell>
             <mat-cell *matCellDef="let row"
-              >{{ getAcceptanceStatus(row) }}
+              >
+              <span *ngIf="row.acceptanceStatus==0"><i class="material-icons waiting" >hourglass_bottom</i></span> 
+              <span *ngIf="row.acceptanceStatus=='1'"><i class="material-icons accepted" >check_circle</i></span> 
+              <span *ngIf="row.acceptanceStatus=='2'"><i class="material-icons rejected" >thumb_down_off_alt</i></span> 
+               {{ getAcceptanceStatus(row) }}
             </mat-cell>
           </ng-container>
           <!-- Table actions -->
@@ -88,6 +85,18 @@
                 <i class="material-icons">more_vert</i>
               </button>
               <mat-menu #menu="matMenu">
+
+                <button mat-menu-item (click)="accept(row)"
+                *ngIf="row.acceptanceStatus != 1 "
+                >
+                  <mat-icon aria-label="Edit">done</mat-icon> Onayla
+                </button>
+                
+                <button mat-menu-item (click)="reject(row)"
+                *ngIf="row.acceptanceStatus != 2 ">
+                  <mat-icon aria-label="Edit">clear</mat-icon> Reddet
+                </button>
+                
                 <button mat-menu-item (click)="edit(row)">
                   <mat-icon aria-label="Edit">create</mat-icon> Düzenle
                 </button>
@@ -96,7 +105,7 @@
                   (click)="delete(row)"
                   *ngIf="row.acceptanceStatus == 0"
                 >
-                  <mat-icon aria-label="Delete">clear</mat-icon> Sil
+                  <mat-icon aria-label="Delete">delete</mat-icon> Sil
                 </button>
               </mat-menu>
             </mat-cell>

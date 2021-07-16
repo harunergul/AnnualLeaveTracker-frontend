@@ -26,6 +26,16 @@
       <span>Modify account</span>
     </button>
 
+    <button mat-menu-item (click)="changeLocale('tr')" *ngIf="getCurrentLocale()!='tr'">
+      <mat-icon>language</mat-icon>
+      <span>Türkçe</span>
+    </button>
+
+    <button mat-menu-item (click)="changeLocale('en')" *ngIf="getCurrentLocale()!='en'">
+      <mat-icon>language</mat-icon>
+      <span>English</span>
+    </button>
+    
     <button mat-menu-item (click)="openDialog()">
       <mat-icon>exit_to_app</mat-icon>
       <span>Logout</span>
